@@ -4,7 +4,9 @@ POP interface to [NATS](https://docs.nats.io/nats-concepts/intro)
 ## Introduction
 
 Simple implementation, likely incomplete, to allow using NATS
-from a POP interface
+from a POP interface.
+
+The "native" NodeJS interface is [here](https://github.com/nats-io/nats.js).
 
 ## Sample Code
 
