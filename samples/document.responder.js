@@ -1,5 +1,5 @@
 /*
- *  lib/publish.js
+ *  samples/document.responder.js
  *
  *  David Janes
  *  IOTDB.org
@@ -21,36 +21,33 @@
  */
 
 "use strict"
-
 const _ = require("iotdb-helpers")
+const nats = require("iotdb-nats")
 
 /**
  */
-const publish = _.promise((self, done) => {
-    _.promise(self)
-        .validate(publish)
+const _request_handler = _.promise(self => {
+    _.promise.validate(self, _request_handler)
 
-        .wrap(self.nats.publish.bind(self.nats), [ self.subject, self.document, null ], "_")
+    console.log("-", "REQUEST", self.document)
 
-        .end(done, self)
+    self.document = "It is " + _.timestamp.make()
 })
 
-publish.method = "publish"
-publish.description = ``
-publish.requires = {
-    nats: _.is.Object,
-    subject: _.is.String,
+_request_handler.method = "_request_handler"
+_request_handler.description = ``
+_request_handler.requires = {
     document: _.is.String,
 }
-publish.produces = {
+_request_handler.produces = {
+    document: _.is.String,
 }
-publish.params = {
-    subject: _.p.normal,
-    document: _.p.normal,
-}
-publish.p = _.p(publish)
 
 /**
- *  API
  */
-exports.publish = publish
+_.promise({
+    nats$cfg: {},
+})
+    .then(nats.initialize)
+    .then(nats.responder.p("foo", _request_handler))
+    .except(_.error.log)

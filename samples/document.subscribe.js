@@ -1,5 +1,5 @@
 /*
- *  lib/publish.js
+ *  samples/document.subscribe.js
  *
  *  David Janes
  *  IOTDB.org
@@ -23,34 +23,29 @@
 "use strict"
 
 const _ = require("iotdb-helpers")
+const nats = require("iotdb-nats")
 
 /**
  */
-const publish = _.promise((self, done) => {
-    _.promise(self)
-        .validate(publish)
+const _handler = _.promise(self => {
+    _.promise.validate(self, _handler)
 
-        .wrap(self.nats.publish.bind(self.nats), [ self.subject, self.document, null ], "_")
-
-        .end(done, self)
+    console.log("-", "received", self.document)
 })
 
-publish.method = "publish"
-publish.description = ``
-publish.requires = {
-    nats: _.is.Object,
-    subject: _.is.String,
+_handler.method = "_handler"
+_handler.description = ``
+_handler.requires = {
     document: _.is.String,
 }
-publish.produces = {
+_handler.produces = {
 }
-publish.params = {
-    subject: _.p.normal,
-    document: _.p.normal,
-}
-publish.p = _.p(publish)
 
 /**
- *  API
  */
-exports.publish = publish
+_.promise({
+    nats$cfg: {},
+})
+    .then(nats.initialize)
+    .then(nats.subscribe.p("foo", _handler))
+    .except(_.error.log)
