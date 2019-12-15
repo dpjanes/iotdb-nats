@@ -35,8 +35,6 @@ Publish:
 Subscribe:
 
     const _handler = _.promise(self => {
-        _.promise.validate(self, _handler)
-
         console.log("-", "received", self.document)
     })
 
