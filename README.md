@@ -32,6 +32,16 @@ Publish:
         .then(nats.close)
         .except(_.error.log)
 
+Publish JSON (similar `.json` functions are available for all the data functions):
+
+    _.promise({
+        nats$cfg: cfg,
+    })
+        .then(nats.initialize)
+        .then(nats.publish.json.p("foo", { "title": "hello, world" }))
+        .then(nats.close)
+        .except(_.error.log)
+
 Subscribe:
 
     const _handler = _.promise(self => {

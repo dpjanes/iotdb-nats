@@ -6,7 +6,6 @@
 #   2019-12-15
 #
 
-exit 0
 PACKAGE=iotdb-nats
 DIST_ROOT=/var/tmp/.dist.$$
 
