@@ -23,13 +23,15 @@
 "use strict"
 const _ = require("iotdb-helpers")
 const nats = require("iotdb-nats")
+const cfg = require("./cfg.json")
 
 /**
  */
 const _response_handler = _.promise(self => {
     _.promise.validate(self, _response_handler)
 
-    console.log("-", "RESPONSE", self.document)
+    console.log("-", "timeout", self.nats$is_timeout)
+    console.log("-", "document", self.document)
 
     self = nats.close.i(self)
 })
@@ -37,6 +39,8 @@ const _response_handler = _.promise(self => {
 _response_handler.method = "_response_handler"
 _response_handler.description = ``
 _response_handler.requires = {
+}
+_response_handler.accepts = {
     document: _.is.String,
 }
 _response_handler.produces = {
@@ -45,7 +49,7 @@ _response_handler.produces = {
 /**
  */
 _.promise({
-    nats$cfg: {},
+    nats$cfg: cfg,
 })
     .then(nats.initialize)
     .then(nats.request.p("foo", "what time is it", _response_handler))

@@ -24,6 +24,7 @@
 
 const _ = require("iotdb-helpers")
 const nats = require("iotdb-nats")
+const cfg = require("./cfg.json")
 
 /**
  */
@@ -44,7 +45,7 @@ _handler.produces = {
 /**
  */
 _.promise({
-    nats$cfg: {},
+    nats$cfg: cfg,
 })
     .then(nats.initialize)
     .then(nats.subscribe.p("foo", _handler))

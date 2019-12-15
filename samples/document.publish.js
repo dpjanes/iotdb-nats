@@ -24,9 +24,10 @@
 
 const _ = require("iotdb-helpers")
 const nats = require("iotdb-nats")
+const cfg = require("./cfg.json")
 
 _.promise({
-    nats$cfg: {},
+    nats$cfg: cfg,
 })
     .then(nats.initialize)
     .then(nats.publish.p("foo", "hello, world"))

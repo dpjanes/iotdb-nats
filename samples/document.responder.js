@@ -23,6 +23,7 @@
 "use strict"
 const _ = require("iotdb-helpers")
 const nats = require("iotdb-nats")
+const cfg = require("./cfg.json")
 
 /**
  */
@@ -46,7 +47,7 @@ _request_handler.produces = {
 /**
  */
 _.promise({
-    nats$cfg: {},
+    nats$cfg: cfg,
 })
     .then(nats.initialize)
     .then(nats.responder.p("foo", _request_handler))

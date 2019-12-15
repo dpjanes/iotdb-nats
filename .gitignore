@@ -4,3 +4,5 @@ zz*
 .*
 *.old
 coverage
+cfg.json
+cfg.*.json
